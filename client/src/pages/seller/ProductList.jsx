@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppContext } from "../../context/AppContext";
 const ProductList = () => {
-  const {products,currency} = useAppContext();
+  const {Product,currency} = useAppContext();
 
   return (
     <div className="no-scrollbar flex-1 h-[95] overflow-y-scroll flex flex-col justify-between">
@@ -18,7 +18,7 @@ const ProductList = () => {
                     </tr>
                 </thead>
                 <tbody className="text-sm text-gray-500">
-                    {products.map((product) => (
+                    {Product.map((product) => (
                         <tr key={product._id} className="border-t border-gray-500/20">
                             <td className="md:px-4 pl-2 md:pl-4 py-3 flex items-center space-x-3 truncate">
                                 <div className="border border-gray-300 rounded overflow-hidden">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAppContext } from "../../context/AppContext";
 
@@ -8,25 +8,33 @@ const SellerLogin = () => {
   const [password, setPassword] = useState("");
 
   const onSubmitHandler = async (e) => {
-    
+    e.preventDefault(); // prevent page reload
+
     try {
       const { data } = await axios.post(
-        '/api/seller/login',
+        "/api/seller/login",
         { email, password },
-        { withCredentials: true } // Important fix
+        { withCredentials: true } // important for cookies
       );
 
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message || "Login successful");
         setIsSeller(true);
-        navigate('/seller');
+        navigate("/seller");
       } else {
-        toast.error(data.message);
+        toast.error(data.message || "Login failed");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
     }
   };
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isSeller) {
+      navigate("/seller");
+    }
+  }, [isSeller, navigate]);
 
   return (
     !isSeller && (
@@ -38,6 +46,7 @@ const SellerLogin = () => {
           <p className="text-2xl font-medium m-auto">
             <span className="text-primary">Seller</span> Login
           </p>
+
           <div className="w-full">
             <p>Email</p>
             <input
@@ -49,6 +58,7 @@ const SellerLogin = () => {
               className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary"
             />
           </div>
+
           <div className="w-full">
             <p>Password</p>
             <input
@@ -60,7 +70,11 @@ const SellerLogin = () => {
               className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary"
             />
           </div>
-          <button className="bg-primary text-white w-full py-2 rounded-md cursor-pointer">
+
+          <button
+            type="submit"
+            className="bg-primary text-white w-full py-2 rounded-md cursor-pointer"
+          >
             Login
           </button>
         </div>
