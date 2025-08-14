@@ -1,0 +1,35 @@
+import mongoose from "mongoose";
+
+const productSchema = new mongoose.Schema({
+        name: {type: String, required:true},
+        description: {type: Array, required:true},
+        price: {type: Number, required:true},
+        offerPrice: {type: Number, required:true},
+        image: {type: Array, required:true},
+        category: {type: Array, required:true},
+        inStock: {type: Boolean, default:true},
+}, { timestamp: true })
+
+
+    
+    const Product = mongoose.models.product || mongoose.model('product', productSchema)
+   
+    
+
+export default Product;
+
+// server/models/Product.js
+// import mongoose from 'mongoose';
+
+// const productSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   description: { type: Array, required: true },
+//   price: { type: Number, required: true },
+//   offerPrice: { type: Number, required: true },
+//   image: { type: Array, required: true },     // singular "image" field (array of urls)
+//   category: { type: Array, required: true },
+//   inStock: { type: Boolean, default: true },
+// }, { timestamps: true }); // note: timestamps (plural)
+
+// const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
+// export default Product;
